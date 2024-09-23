@@ -9,3 +9,8 @@ export interface Product{
     title:string
  
 }
+
+export interface ProductItemCart{
+    prduct:Product;
+    quantity:number;
+}
