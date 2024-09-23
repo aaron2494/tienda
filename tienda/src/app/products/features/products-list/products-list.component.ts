@@ -1,20 +1,22 @@
 import { Component, inject } from '@angular/core';
-import { ProductsService } from '../../data-access/products.service';
+import { ProductsStateService } from '../../data-access/products-state.service';
+import { ProductCardComponent } from '../../ui/product-card/product-card.component';
+import { HeaderComponent } from "../../../shared/ui/header/header.component";
+
 
 @Component({
   selector: 'app-products-list',
   standalone: true,
-  imports: [],
+  imports: [HeaderComponent, ProductCardComponent],
   templateUrl: './products-list.component.html',
   styles:``,
-  providers: [ProductsService]
+  providers:[ProductsStateService]
+
 })
 export default class ProductsListComponent {
-private productsService = inject(ProductsService)
-
-constructor(){
-  this.productsService.getProducts().subscribe((products) =>{
-    console.log(products);
-  });
+productsState = inject(ProductsStateService)
+changePage(){
+  const page = this.productsState.state.page()+1
+  this.productsState.changePage$.next(page )
 }
 }
