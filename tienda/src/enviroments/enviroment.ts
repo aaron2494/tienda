@@ -1,4 +1,4 @@
 export const enviroment={
-    API_URL:'https://fakestoreapi.com/products'
+    API_URL:'https://fakestoreapi.com'
 
 }
