@@ -1,8 +1,8 @@
-import { inject, Injectable } from '@angular/core';
+import { ProductItemCart } from './../interfaces/product.interface';
+import { inject, Injectable, Signal } from '@angular/core';
 import { signalSlice } from 'ngxtension/signal-slice';
 import { StorageService } from './storage.service';
-import { ProductItemCart } from '../interfaces/product.interface';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 interface State{
   products: ProductItemCart[];
@@ -26,5 +26,36 @@ loadProducts$=this._storageService.loadProducts().pipe(
 
 state =signalSlice({
   initialState:this.initialState,
-})
+  sources:[
+    this.loadProducts$
+  ],
+  actionSources:{
+     add :(state,action$:Observable<ProductItemCart>)=>
+      action$.pipe(
+        map((product)=>this.add(state,product)),
+      ),
+  },
+  effects:(state)=>({
+    load:()=>{
+      if(state().loaded){
+        this._storageService.saveProducts(state().products);
+      }
+      
+    },
+  })
+});
+
+private add (state:Signal<State>, product:ProductItemCart){
+  const isInCart= state().products.find((productInCart)=>productInCart.product.id === product.product.id,
+)
+  if(!isInCart){
+    return{ 
+      products:[...state().products,{...product,quantity:1}]
+    }
+  }
+  isInCart.quantity +=1;
+  return {
+    products:[...state().products]
+}
+}
 }

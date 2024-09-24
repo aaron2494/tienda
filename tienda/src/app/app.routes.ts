@@ -7,6 +7,10 @@ export const routes: Routes = [
             import('./products/features/products-shell/product.route')
     },
     {
+        path:'cart',
+        loadChildren:()=>import('./cart/cart.route')
+    },
+    {
         path: '**',
         redirectTo: ''
     },

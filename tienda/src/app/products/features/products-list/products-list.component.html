@@ -17,7 +17,7 @@
   <div class="justify-center grid grid-cols-[repeat(4,300px)] gap-4">
     @for (product of productsState.state().products; track product) {
 
-    <app-product-card [product]="product"></app-product-card>
+    <app-product-card [product]="product" (addToCart)="addToCart($event)"></app-product-card>
     }
   </div>
   } } 

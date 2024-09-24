@@ -11,6 +11,6 @@ export interface Product{
 }
 
 export interface ProductItemCart{
-    prduct:Product;
+    product:Product;
     quantity:number;
 }
